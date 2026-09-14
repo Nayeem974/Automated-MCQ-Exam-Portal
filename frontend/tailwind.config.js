@@ -66,16 +66,28 @@ export default {
         soft: '0 2px 10px 0 rgba(76, 29, 149, 0.06)',
         card: '0 4px 24px -4px rgba(76, 29, 149, 0.10)',
         'card-hover': '0 12px 32px -8px rgba(76, 29, 149, 0.18)',
+        'card-lg': '0 24px 60px -16px rgba(76, 29, 149, 0.24)',
         glow: '0 8px 30px -6px rgba(109, 61, 245, 0.35)',
+        'glow-lg': '0 20px 50px -12px rgba(109, 61, 245, 0.45)',
+        'inner-top': 'inset 0 1px 0 0 rgba(255, 255, 255, 0.55)',
       },
       backgroundImage: {
-        'purple-gradient': 'linear-gradient(135deg, #7C4DFF 0%, #6D3DF5 45%, #5B2FDE 100%)',
-        'sidebar-gradient': 'linear-gradient(180deg, #6D3DF5 0%, #5424C9 100%)',
+        'purple-gradient':
+          'linear-gradient(135deg, #8B5CF6 0%, #6D3DF5 42%, #5B2FDE 78%, #4F24C6 100%)',
+        'sidebar-gradient': 'linear-gradient(165deg, #7C4DFF 0%, #6D3DF5 48%, #4F24C6 100%)',
+        'grad-primary': 'linear-gradient(135deg, #A87DFB 0%, #6D3DF5 100%)',
+        'grad-info': 'linear-gradient(135deg, #60A5FA 0%, #2563EB 100%)',
+        'grad-success': 'linear-gradient(135deg, #4ADE80 0%, #16A34A 100%)',
+        'grad-warning': 'linear-gradient(135deg, #FBBF24 0%, #D97706 100%)',
+        'grad-danger': 'linear-gradient(135deg, #F87171 0%, #DC2626 100%)',
       },
       keyframes: {
         'fade-in-up': {
           '0%': { opacity: '0', transform: 'translateY(8px)' },
           '100%': { opacity: '1', transform: 'translateY(0)' },
+        },
+        shimmer: {
+          '100%': { transform: 'translateX(100%)' },
         },
       },
       animation: {

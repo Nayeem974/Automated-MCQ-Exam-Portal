@@ -23,8 +23,13 @@ export default function WelcomeBanner({
       initial={{ opacity: 0, y: -12 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.45, ease: 'easeOut' }}
-      className="relative isolate overflow-hidden rounded-3xl bg-purple-gradient px-6 py-7 text-white shadow-glow sm:px-9 sm:py-9"
+      className="relative isolate overflow-hidden rounded-3xl bg-purple-gradient px-6 py-7 text-white shadow-glow-lg sm:px-9 sm:py-9"
     >
+      {/* subtle grid texture for depth */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 opacity-[0.12] [background-image:linear-gradient(to_right,rgba(255,255,255,0.6)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.6)_1px,transparent_1px)] [background-size:34px_34px] [mask-image:radial-gradient(ellipse_at_top_left,black,transparent_75%)]"
+      />
       <div className="relative z-10 flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
         <div className="max-w-lg">
           <div className="mb-3 flex items-center gap-1.5 text-xs font-medium text-white/70">

@@ -3,11 +3,11 @@ import { motion } from 'framer-motion';
 export type ProgressTone = 'primary' | 'success' | 'warning' | 'danger' | 'info';
 
 const toneClasses: Record<ProgressTone, string> = {
-  primary: 'bg-primary-600',
-  success: 'bg-success-500',
-  warning: 'bg-warning-500',
-  danger: 'bg-danger-500',
-  info: 'bg-info-500',
+  primary: 'bg-grad-primary',
+  success: 'bg-grad-success',
+  warning: 'bg-grad-warning',
+  danger: 'bg-grad-danger',
+  info: 'bg-grad-info',
 };
 
 export default function ProgressBar({

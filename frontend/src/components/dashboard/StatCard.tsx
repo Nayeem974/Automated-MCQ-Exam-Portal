@@ -4,12 +4,12 @@ import { TrendingDown, TrendingUp, type LucideIcon } from 'lucide-react';
 
 export type StatTone = 'primary' | 'success' | 'warning' | 'danger' | 'info';
 
-const toneClasses: Record<StatTone, { bg: string; icon: string; ring: string }> = {
-  primary: { bg: 'bg-primary-50', icon: 'bg-primary-600 text-white', ring: 'hover:ring-primary-200' },
-  success: { bg: 'bg-success-50', icon: 'bg-success-500 text-white', ring: 'hover:ring-success-200' },
-  warning: { bg: 'bg-warning-50', icon: 'bg-warning-500 text-white', ring: 'hover:ring-warning-200' },
-  danger: { bg: 'bg-danger-50', icon: 'bg-danger-500 text-white', ring: 'hover:ring-danger-200' },
-  info: { bg: 'bg-info-50', icon: 'bg-info-500 text-white', ring: 'hover:ring-info-200' },
+const toneClasses: Record<StatTone, { bg: string; icon: string; blob: string; ring: string }> = {
+  primary: { bg: 'bg-gradient-to-br from-primary-50 to-white', icon: 'bg-grad-primary text-white shadow-glow', blob: 'bg-primary-400', ring: 'hover:ring-primary-200' },
+  success: { bg: 'bg-gradient-to-br from-success-50 to-white', icon: 'bg-grad-success text-white', blob: 'bg-success-500', ring: 'hover:ring-success-200' },
+  warning: { bg: 'bg-gradient-to-br from-warning-50 to-white', icon: 'bg-grad-warning text-white', blob: 'bg-warning-500', ring: 'hover:ring-warning-200' },
+  danger: { bg: 'bg-gradient-to-br from-danger-50 to-white', icon: 'bg-grad-danger text-white', blob: 'bg-danger-500', ring: 'hover:ring-danger-200' },
+  info: { bg: 'bg-gradient-to-br from-info-50 to-white', icon: 'bg-grad-info text-white', blob: 'bg-info-500', ring: 'hover:ring-info-200' },
 };
 
 export default function StatCard({

@@ -18,6 +18,10 @@ export default function AuthShell({
     <div className="flex min-h-screen bg-surface">
       {/* Brand panel — hidden on small screens, matches the sidebar's gradient language */}
       <div className="relative hidden w-[45%] shrink-0 flex-col justify-between overflow-hidden bg-sidebar-gradient p-10 text-white lg:flex">
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0 opacity-[0.12] [background-image:linear-gradient(to_right,rgba(255,255,255,0.6)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.6)_1px,transparent_1px)] [background-size:34px_34px] [mask-image:radial-gradient(ellipse_at_top,black,transparent_75%)]"
+        />
         <div className="flex items-center gap-3">
           <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-white/15 backdrop-blur-sm">
             <ClipboardCheck className="h-6 w-6" strokeWidth={2.25} />
