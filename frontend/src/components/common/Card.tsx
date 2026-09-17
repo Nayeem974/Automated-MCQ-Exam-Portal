@@ -12,9 +12,9 @@ const Card = forwardRef<HTMLDivElement, CardProps>(
       <div
         ref={ref}
         className={[
-          'rounded-2xl border border-primary-100/60 bg-white shadow-soft',
+          'rounded-2xl border border-primary-100/70 bg-white shadow-card',
           padded ? 'p-5' : '',
-          hoverable ? 'transition-all duration-200 hover:-translate-y-0.5 hover:shadow-card-hover' : '',
+          hoverable ? 'transition-all duration-300 hover:-translate-y-1 hover:border-primary-200 hover:shadow-card-lg' : '',
           className ?? '',
         ].join(' ')}
         {...rest}

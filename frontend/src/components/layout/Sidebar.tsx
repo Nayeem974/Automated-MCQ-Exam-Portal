@@ -36,13 +36,21 @@ function SidebarContent({ role, onSignOut, onNavigate }: { role: CurrentUser['ro
             onClick={onNavigate}
             className={({ isActive }) =>
               [
-                'group flex items-center gap-3 rounded-xl px-3.5 py-2.5 text-sm font-medium transition-all duration-200',
-                isActive ? 'bg-white text-primary-700 shadow-soft' : 'text-white/75 hover:bg-white/10 hover:text-white',
+                'group relative flex items-center gap-3 rounded-xl px-3.5 py-2.5 text-sm font-medium transition-all duration-200',
+                isActive
+                  ? 'bg-white font-semibold text-primary-700 shadow-card'
+                  : 'text-white/75 hover:bg-white/10 hover:text-white',
               ].join(' ')
             }
           >
             {({ isActive }) => (
               <>
+                {isActive && (
+                  <span
+                    aria-hidden
+                    className="absolute -left-4 top-1/2 h-6 w-1.5 -translate-y-1/2 rounded-full bg-white"
+                  />
+                )}
                 <item.icon
                   className={`h-[18px] w-[18px] shrink-0 transition-transform duration-200 group-hover:scale-110 ${isActive ? 'text-primary-600' : 'text-white/70 group-hover:text-white'}`}
                   strokeWidth={2}

@@ -6,10 +6,10 @@ import ProgressBar from '../common/ProgressBar';
 export type CoursePastel = 'lavender' | 'blue' | 'green' | 'amber';
 
 const pastelClasses: Record<CoursePastel, { bg: string; icon: string; bar: 'primary' | 'info' | 'success' | 'warning' }> = {
-  lavender: { bg: 'bg-primary-50', icon: 'bg-primary-100 text-primary-600', bar: 'primary' },
-  blue: { bg: 'bg-info-50', icon: 'bg-info-100 text-info-600', bar: 'info' },
-  green: { bg: 'bg-success-50', icon: 'bg-success-100 text-success-700', bar: 'success' },
-  amber: { bg: 'bg-warning-50', icon: 'bg-warning-100 text-warning-700', bar: 'warning' },
+  lavender: { bg: 'bg-gradient-to-br from-primary-50 to-white', icon: 'bg-grad-primary text-white shadow-glow', bar: 'primary' },
+  blue: { bg: 'bg-gradient-to-br from-info-50 to-white', icon: 'bg-grad-info text-white', bar: 'info' },
+  green: { bg: 'bg-gradient-to-br from-success-50 to-white', icon: 'bg-grad-success text-white', bar: 'success' },
+  amber: { bg: 'bg-gradient-to-br from-warning-50 to-white', icon: 'bg-grad-warning text-white', bar: 'warning' },
 };
 
 export default function CourseCard({
