@@ -15,9 +15,27 @@ describe('EvaluationService', () => {
     ];
 
     const answers = [
-      { id: 'a1', questionId: 'q1', question: questions[0], selectedOption: { isCorrect: true } },
-      { id: 'a2', questionId: 'q2', question: questions[1], selectedOption: { isCorrect: true } },
-      { id: 'a3', questionId: 'q3', question: questions[2], selectedOption: { isCorrect: false } },
+      { 
+        id: 'a1',
+        questionId: 'q1',
+        question: questions[0],
+        selectedOptionId: 'o1',
+        selectedOption: { isCorrect: true }
+      },
+      { 
+        id: 'a2',
+        questionId: 'q2',
+        question: questions[1],
+        selectedOptionId: 'o2',
+        selectedOption: { isCorrect: true }
+      },
+      { 
+        id: 'a3',
+        questionId: 'q3',
+        question: questions[2],
+        selectedOptionId: 'o3',
+        selectedOption: { isCorrect: false }
+      },
       // q4 intentionally has no answer row -> counts as unanswered
     ];
 
@@ -60,8 +78,20 @@ describe('EvaluationService', () => {
       id: 'attempt-2',
       questionOrder: ['q1', 'q2'],
       answers: [
-        { id: 'a1', questionId: 'q1', question: { id: 'q1', marks: 1, negativeMarks: 0 }, selectedOption: { isCorrect: true } },
-        { id: 'a2', questionId: 'q2', question: { id: 'q2', marks: 1, negativeMarks: 0 }, selectedOption: { isCorrect: true } },
+        {
+          id: 'a1',
+          questionId: 'q1',
+          question: { id: 'q1', marks: 1, negativeMarks: 0 },
+          selectedOptionId: 'o1',
+          selectedOption: { isCorrect: true }
+        },
+        {
+          id: 'a2',
+          questionId: 'q2',
+          question: { id: 'q2', marks: 1, negativeMarks: 0 },
+          selectedOptionId: 'o2',
+          selectedOption: { isCorrect: true }
+        }, 
       ],
       exam: { passingMark: 50 },
     });
