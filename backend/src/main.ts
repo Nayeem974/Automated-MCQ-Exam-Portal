@@ -9,7 +9,7 @@ async function bootstrap() {
     origin: process.env.FRONTEND_ORIGIN ?? 'http://localhost:5173',
     credentials: true,
   });
-
+  
   app.useGlobalPipes(
     new ValidationPipe({
       whitelist: true,
@@ -21,7 +21,7 @@ async function bootstrap() {
   app.setGlobalPrefix('api');
 
   const port = process.env.PORT ?? 3000;
-  await app.listen(port);
+  await app.listen(port, '0.0.0.0');
   // eslint-disable-next-line no-console
   console.log(`MCQ Exam Portal API running on http://localhost:${port}/api`);
 }
