@@ -1,7 +1,6 @@
-import { IsEmail, IsString, MinLength } from 'class-validator';
+import { IsEmail, IsIn, IsString, MinLength } from 'class-validator';
+import { Role } from '../../common/enums/role.enum';
 
-// Public self-registration always creates a STUDENT account.
-// Admin and Teacher accounts are created by an admin via /users (or the seed script).
 export class RegisterDto {
   @IsEmail()
   email: string;
@@ -12,4 +11,7 @@ export class RegisterDto {
 
   @IsString()
   name: string;
+
+  @IsIn([Role.STUDENT, Role.TEACHER])
+  role: Role.STUDENT | Role.TEACHER;
 }

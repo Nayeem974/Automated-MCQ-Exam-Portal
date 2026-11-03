@@ -1,4 +1,5 @@
-import { IsEmail, IsString } from 'class-validator';
+import { IsEmail, IsIn, IsString } from 'class-validator';
+import { Role } from '../../common/enums/role.enum';
 
 export class LoginDto {
   @IsEmail()
@@ -6,4 +7,8 @@ export class LoginDto {
 
   @IsString()
   password: string;
+
+  // Admin can log in, but Admin is intentionally excluded from public registration.
+  @IsIn([Role.ADMIN, Role.STUDENT, Role.TEACHER])
+  role: Role.ADMIN | Role.STUDENT | Role.TEACHER;
 }

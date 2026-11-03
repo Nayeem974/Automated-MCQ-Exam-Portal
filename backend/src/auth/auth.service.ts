@@ -8,6 +8,7 @@ import { LoginDto } from './dto/login.dto';
 import { Role } from '../common/enums/role.enum';
 
 const SALT_ROUNDS = 10;
+const PUBLIC_ROLES = [Role.STUDENT, Role.TEACHER] as const;
 
 @Injectable()
 export class AuthService {
@@ -17,11 +18,13 @@ export class AuthService {
     private auditLog: AuditLogService,
   ) {}
 
-  // Public registration always creates a STUDENT — admins/teachers are
-  // provisioned via the admin Users module or the seed script.
   async register(dto: RegisterDto) {
     const existing = await this.prisma.user.findUnique({ where: { email: dto.email } });
     if (existing) throw new ConflictException('Email already registered');
+
+    if (!PUBLIC_ROLES.includes(dto.role)) {
+      throw new UnauthorizedException('Invalid registration role');
+    }
 
     const passwordHash = await bcrypt.hash(dto.password, SALT_ROUNDS);
     const user = await this.prisma.user.create({
@@ -29,24 +32,40 @@ export class AuthService {
         email: dto.email,
         passwordHash,
         name: dto.name,
-        role: Role.STUDENT,
+        role: dto.role,
       },
     });
 
-    await this.auditLog.log({ userId: user.id, action: 'USER_REGISTERED', entityType: 'User', entityId: user.id });
+    await this.auditLog.log({
+      userId: user.id,
+      action: 'USER_REGISTERED',
+      entityType: 'User',
+      entityId: user.id,
+    });
+
     return this.issueToken(user.id, user.email, user.role);
   }
 
   async login(dto: LoginDto) {
     const user = await this.prisma.user.findUnique({ where: { email: dto.email } });
-    if (!user) throw new UnauthorizedException('Invalid email or password');
+    if (!user) throw new UnauthorizedException('Invalid email, password, or role');
 
     const valid = await bcrypt.compare(dto.password, user.passwordHash);
-    if (!valid) throw new UnauthorizedException('Invalid email or password');
+    if (!valid) throw new UnauthorizedException('Invalid email, password, or role');
 
     if (!user.isActive) throw new UnauthorizedException('This account has been disabled');
 
-    await this.auditLog.log({ userId: user.id, action: 'USER_LOGIN', entityType: 'User', entityId: user.id });
+    if (user.role !== dto.role) {
+      throw new UnauthorizedException('Invalid email, password, or role');
+    }
+
+    await this.auditLog.log({
+      userId: user.id,
+      action: 'USER_LOGIN',
+      entityType: 'User',
+      entityId: user.id,
+    });
+
     return this.issueToken(user.id, user.email, user.role);
   }
 

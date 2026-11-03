@@ -8,6 +8,7 @@ describe('Auth DTO validation — equivalence partitions and boundaries', () => 
     const dto = Object.assign(new LoginDto(), {
       email: 'student@example.com',
       password: 'password123',
+      role: 'STUDENT',
     });
 
     await expect(validate(dto)).resolves.toHaveLength(0);
@@ -17,6 +18,7 @@ describe('Auth DTO validation — equivalence partitions and boundaries', () => 
     const dto = Object.assign(new LoginDto(), {
       email: 'not-an-email',
       password: 'password123',
+      role: 'STUDENT',
     });
 
     const errors = await validate(dto);
@@ -28,6 +30,7 @@ describe('Auth DTO validation — equivalence partitions and boundaries', () => 
       email: 'student@example.com',
       password: '12345678',
       name: 'Student',
+      role: 'STUDENT',
     });
 
     await expect(validate(dto)).resolves.toHaveLength(0);
@@ -38,6 +41,7 @@ describe('Auth DTO validation — equivalence partitions and boundaries', () => 
       email: 'student@example.com',
       password: '1234567',
       name: 'Student',
+      role: 'STUDENT',
     });
 
     const errors = await validate(dto);
