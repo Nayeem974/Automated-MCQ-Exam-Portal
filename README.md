@@ -181,12 +181,11 @@ The existing backend tests cover selected high-risk logic, including evaluation,
 
 ## Project Documentation
 
+All supporting project documents are organized under `docs/`.
+
 ### Reports
 - [Project Report](docs/reports/Automated%20MCQ%20Exam%20Portal%20report.pdf)
 - [Testing & QA Report](docs/reports/Automated_MCQ_Exam_Portal_Testing_QA_Report.pdf)
-
-### Proposal
-- [Project Proposal](docs/proposals/your-proposal-filename.pdf)
 
 ### Diagrams
 - [System Modeling](docs/diagrams/Automated%20MCQ%20Portal%20System%20Modeling.png)
