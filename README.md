@@ -1,175 +1,221 @@
 # Automated MCQ Exam Portal
 
-A working role-based (Admin / Teacher / Student) web exam system: teachers
-build question banks and exams, students take randomized timed exams, and
-the system auto-evaluates and produces results, rankings, and analytics.
+A full-stack, role-based online examination platform for managing courses, question banks, timed multiple-choice exams, automatic grading, results, and performance analytics.
 
-- **Frontend:** React + TypeScript + Tailwind CSS (Vite)
-- **Backend:** NestJS (REST API), modular monolith
-- **Database:** PostgreSQL via **Supabase**, accessed with Prisma ORM
+[![Frontend](https://img.shields.io/badge/Frontend-React%20%2B%20TypeScript-3178C6?logo=react&logoColor=white)](https://react.dev/)
+[![Backend](https://img.shields.io/badge/Backend-NestJS-E0234E?logo=nestjs&logoColor=white)](https://nestjs.com/)
+[![Database](https://img.shields.io/badge/Database-PostgreSQL-4169E1?logo=postgresql&logoColor=white)](https://www.postgresql.org/)
+[![ORM](https://img.shields.io/badge/ORM-Prisma-2D3748?logo=prisma&logoColor=white)](https://www.prisma.io/)
 
-This README covers Supabase setup, environment configuration, running both
-apps locally on Windows/VS Code, seeding demo data, and testing the full
-Admin → Teacher → Student flow end to end.
+## Overview
 
----
+The Automated MCQ Exam Portal digitizes the examination workflow for educational institutions. It provides separate workspaces for administrators, teachers, and students, with server-side exam timing and automatic evaluation.
 
-## 1. Set up Supabase
+### User roles
 
-1. Go to [supabase.com](https://supabase.com) → **New project**. Pick any
-   name/region and set a database password (save it — you'll need it below).
-2. Once the project is ready: **Project Settings → Database → Connection
-   string → URI tab**.
-3. Supabase gives you two useful connection strings:
-   - **Transaction pooler** (port `6543`) — used for normal app traffic.
-   - **Session/Direct connection** (port `5432`) — required for running
-     Prisma migrations (the pooler can't run them).
-4. Copy both into `backend/.env` as `DATABASE_URL` and `DIRECT_URL` (see
-   step 2 below). Replace `[YOUR-PASSWORD]` with your actual DB password.
+| Role | Responsibilities |
+|---|---|
+| **Admin** | Manage users, roles, courses, exams, platform overview, and audit logs |
+| **Teacher** | Manage courses, maintain question banks, create and publish exams, and review analytics |
+| **Student** | Browse available exams, take timed assessments, submit answers, and review results |
 
-You do **not** need a local Postgres install — everything runs against
-Supabase.
+## Features
 
-## 2. Backend setup
+- Role-based access control for Admin, Teacher, and Student accounts.
+- Course management and teacher-owned course workflows.
+- Question bank management with validation and search/filter support.
+- Exam creation and publishing with configurable question pools and exam rules.
+- Timed exam attempts with randomized question/option order, resume support, and answer autosave.
+- Automatic evaluation with configurable marking, negative marking, and pass/fail calculation.
+- Result history and answer review according to exam settings.
+- Analytics for class performance, pass rate, question performance, and leaderboards.
+- Audit logging for selected platform actions.
 
-```bash
-cd backend
-copy .env.example .env      REM (Windows) — or `cp .env.example .env` on macOS/Linux
+## Technology stack
+
+| Layer | Technologies |
+|---|---|
+| Frontend | React 18, TypeScript, Vite, Tailwind CSS |
+| Backend | NestJS 10, TypeScript, REST API |
+| Database | PostgreSQL (Supabase) |
+| ORM | Prisma |
+| Authentication | JWT, Passport, role guards |
+| Testing | Jest, ts-jest |
+
+## Architecture
+
+```text
+Automated-MCQ-Exam-Portal/
+├── backend/
+│   ├── prisma/              # Database schema and development seed
+│   └── src/
+│       ├── auth/             # Authentication and authorization
+│       ├── users/            # User administration
+│       ├── courses/          # Course management
+│       ├── questions/        # Question bank
+│       ├── exams/            # Exam creation and publishing
+│       ├── attempts/         # Timed exam attempts
+│       ├── evaluation/       # Grading and score calculation
+│       ├── results/          # Results and answer review
+│       ├── analytics/        # Performance analytics
+│       ├── audit-log/        # Audit trail
+│       └── common/           # Shared guards and utilities
+├── frontend/
+│   └── src/
+│       ├── features/         # Admin, teacher, and student interfaces
+│       ├── lib/              # API and shared client utilities
+│       └── routes/           # Route and access control
+└── .github/                  # Issue templates and CI workflow
 ```
 
-Edit `backend/.env`:
+## Getting started
+
+### Prerequisites
+
+- Node.js (LTS recommended)
+- npm
+- A Supabase project with a PostgreSQL database
+- Git
+
+### 1. Clone the repository
+
+```bash
+git clone https://github.com/Nayeem974/Automated-MCQ-Exam-Portal.git
+cd Automated-MCQ-Exam-Portal
+```
+
+### 2. Configure the backend environment
+
+Create `backend/.env` by copying the example file.
+
+**Windows PowerShell**
+```powershell
+Copy-Item backend/.env.example backend/.env
+```
+
+**macOS / Linux**
+```bash
+cp backend/.env.example backend/.env
+```
+
+Set the values in `backend/.env` using the connection strings from your Supabase project:
 
 ```env
-DATABASE_URL="postgresql://postgres.xxxx:[YOUR-PASSWORD]@aws-0-xx-xxxx-1.pooler.supabase.com:6543/postgres?pgbouncer=true"
-DIRECT_URL="postgresql://postgres.xxxx:[YOUR-PASSWORD]@aws-0-xx-xxxx-1.pooler.supabase.com:5432/postgres"
-JWT_SECRET="<generate one — see comment in .env.example>"
+DATABASE_URL="YOUR_SUPABASE_TRANSACTION_POOLER_URL"
+DIRECT_URL="YOUR_SUPABASE_DIRECT_DATABASE_URL"
+JWT_SECRET="REPLACE_WITH_A_LONG_RANDOM_SECRET"
 JWT_EXPIRES_IN="1d"
 PORT=3000
 FRONTEND_ORIGIN="http://localhost:5173"
 ```
 
-Then:
+Use the connection format and port supplied by Supabase for your project. Never commit `.env` files or share database credentials.
+
+### 3. Install and run the backend
 
 ```bash
+cd backend
 npm install
-npx prisma migrate dev --name init    REM creates all tables in Supabase
-npm run prisma:seed                   REM loads demo data (see below)
+npx prisma generate
+npx prisma migrate dev
 npm run start:dev
 ```
 
-The API runs at `http://localhost:3000/api`.
+The API is available at `http://localhost:3000/api`.
 
-## 3. Frontend setup
+### 4. Install and run the frontend
 
-In a second terminal:
+Open a second terminal from the repository root:
 
 ```bash
 cd frontend
-copy .env.example .env      REM optional — defaults work for local dev
 npm install
 npm run dev
 ```
 
-The app runs at `http://localhost:5173` and proxies `/api` to the backend
-(configured in `vite.config.ts`) — no CORS setup needed for local dev.
+The frontend is available at `http://localhost:5173`.
 
-## 4. Seed data & dev login credentials
+The Vite development proxy is configured in `frontend/vite.config.ts`.
 
-`npm run prisma:seed` (run from `backend/`) creates:
+### 5. Optional: load development seed data
 
-| Role | Email | Password |
-|---|---|---|
-| Admin | `admin@example.com` | `Password123!` |
-| Teacher | `teacher@example.com` | `Password123!` |
-| Teacher | `teacher2@example.com` | `Password123!` |
-| Student | `student1@example.com` … `student5@example.com` | `Password123!` |
+```bash
+cd backend
+npm run prisma:seed
+```
 
-It also creates 2 courses, a 10-question bank for CSE101, and one
-**published** exam ("CSE101 Midterm", 5 of 10 questions per attempt, 15
-minutes, answer review enabled) that students can take immediately.
+The seed script creates sample Admin, Teacher, and Student accounts, courses, questions, and a published exam.
 
-**These are development-only credentials — never reuse this password or
-seed this script against a production database.**
+> **Development only:** The seed script uses predictable demo credentials (including the shared password defined in `backend/prisma/seed.ts`). Never run it against production data. Review the seed script before use and change demo passwords in any shared environment.
 
-## 5. Testing the complete flow
+## Testing
 
-1. **Admin** (`admin@example.com`) — log in, go to Dashboard to see live
-   platform stats, then Users/Courses/Exams/Audit Logs to see everything
-   across the platform.
-2. **Teacher** (`teacher@example.com`) — log in, open *Courses* to see
-   CSE101, open its *Question bank* to add/edit/delete questions, go to
-   *Exams* to see the seeded published exam, or *+ New exam* to build one
-   from scratch (pick a course, select a question pool, configure rules,
-   save as draft, then Publish).
-3. **Student** (`student1@example.com`) — log in, see "CSE101 Midterm"
-   under *Available exams*, read the instructions, start it. The timer,
-   question navigation, and autosave are all live against the backend.
-   Submit (or let the timer expire) to see the automatically-graded result,
-   then check *Result history*.
-4. Back as **Teacher** — open the exam's *Analytics* to see class average,
-   pass rate, per-question performance, and the ranked leaderboard update
-   with that attempt.
-
-## 6. Running tests
+Run backend tests:
 
 ```bash
 cd backend
 npm test
 ```
 
-Covers the negative-marking/pass-fail calculation, the exactly-one-
-correct-option rule, exam rule validation (pool size, schedule), and
-auth (registration role-lock, login, disabled-account rejection).
+Run backend test coverage:
 
-## Repo layout
+```bash
+npm run test:coverage
+```
 
+Build the backend:
+
+```bash
+cd backend
+npm run build
 ```
-mcq-exam-portal/
-├── backend/                 NestJS API
-│   ├── prisma/
-│   │   ├── schema.prisma    All 11 entities from the pipeline doc
-│   │   └── seed.ts          Dev seed data (see section 4)
-│   └── src/
-│       ├── auth/            login/register (student-only)/JWT/role guard/me
-│       ├── users/            admin: full user CRUD + role assignment
-│       ├── courses/          course CRUD (teacher-owned)
-│       ├── questions/        question bank CRUD, search/filter, validation
-│       ├── exams/             exam CRUD, validation, publish/close
-│       ├── attempts/         exam engine: randomization, resume, timer, autosave
-│       ├── evaluation/       auto-grading, negative marking, pass/fail
-│       ├── results/           student results + reveal-answers config
-│       ├── analytics/       class stats, question performance, admin summary
-│       ├── audit-log/        lightweight action logging + admin viewer
-│       └── common/           roles enum, RolesGuard, JwtAuthGuard
-└── frontend/            React + Vite + Tailwind SPA
-    └── src/
-        ├── features/auth      Login / Register (student-only)
-        ├── features/admin     Dashboard, Users, Courses, Exams, Audit logs
-        ├── features/teacher   Dashboard, Courses, Question bank, Exam
-        │                      creation/list, Analytics
-        ├── features/student   Dashboard, Exam instructions, Exam-taking
-        │                      UI, Result detail/history
-        ├── lib/api.ts         fetch wrapper + JWT handling
-        └── routes/            session-verified, role-protected routing
+
+Build the frontend:
+
+```bash
+cd frontend
+npm run build
 ```
+
+The existing backend tests cover selected high-risk logic, including evaluation, exam validation, and authentication. See `backend/TESTING_REPORT.md` and the testing report PDF for the documented test scope.
+
+## Project documentation
+
+- [Project proposal](Automated%20MCQ%20Exam%20Portal%20project%20proposal.pdf)
+- [Project report](Automated%20MCQ%20Exam%20Portal%20report.pdf)
+- [Testing & QA report](Automated_MCQ_Exam_Portal_Testing_QA_Report.pdf)
+- [Backend testing notes](backend/TESTING_REPORT.md)
+- [System modeling diagram](Automated%20MCQ%20Portal%20System%20Modeling.png)
+
+## Security notes
+
+- Keep secrets in local environment files and hosting-provider secret stores.
+- Use a strong, unique `JWT_SECRET` outside local development.
+- Demo credentials and seed data are not suitable for production.
+- Do not include passwords, tokens, private student information, or database URLs in GitHub issues.
+- Review authorization, CORS, rate limits, database permissions, and deployment settings before public deployment.
 
 ## Known limitations
 
-This is a Software Development Lab project scoped deliberately to stay
-understandable — a few things are intentionally simple rather than
-production-hardened:
+This is an academic software development project and is not presented as a hardened production examination service.
 
-- **Anti-cheating**: this is not a lockdown browser. It prevents backend-
-  level tampering (server-authoritative timer, ownership checks, frozen
-  per-attempt question/option order, option-ID validation) but cannot stop
-  someone from using a second device.
-- **Editing published exams**: an exam can no longer be edited once it has
-  any student attempts, to keep past attempts consistent — this is
-  enforced but there's no "duplicate exam" convenience shortcut yet.
-- **Rate limiting** is a basic global IP-based limit (30 req/min), not
-  per-endpoint tuning.
-- **Charts** on the analytics page are simple CSS bar visualizations
-  rather than a charting library, to keep the dependency footprint small.
-- **Tests** cover the highest-risk logic (grading, validation, auth) but
-  are not full end-to-end/integration coverage.
-#
+- The application is not a lockdown browser and cannot prevent all forms of external assistance or device switching.
+- Server-side controls help protect attempt ownership, timing, and submitted answers, but do not guarantee exam integrity.
+- Published exams with existing attempts are restricted from editing to preserve attempt consistency.
+- Rate limiting uses a basic global configuration and may need endpoint-specific policies for production.
+- Analytics visualizations are intentionally lightweight.
+- Current automated tests cover selected high-risk rules; comprehensive end-to-end testing remains future work.
+
+## Contributing
+
+Contributions and suggestions are welcome. Please read [CONTRIBUTING.md](CONTRIBUTING.md) before opening a pull request.
+
+For bugs or feature suggestions, use the GitHub issue templates. Include reproducible details, but never include secrets or private student data.
+
+## License
+
+No license has been specified. Unless a license is added, default copyright rules apply and reuse is not automatically granted.
+
+---
+
+<p align="center">Built as an academic full-stack software development project.</p>
