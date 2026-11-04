@@ -179,13 +179,20 @@ npm run build
 
 The existing backend tests cover selected high-risk logic, including evaluation, exam validation, and authentication. See `backend/TESTING_REPORT.md` and the testing report PDF for the documented test scope.
 
-## Project documentation
+## Project Documentation
 
-- [Project proposal](Automated%20MCQ%20Exam%20Portal%20project%20proposal.pdf)
-- [Project report](Automated%20MCQ%20Exam%20Portal%20report.pdf)
-- [Testing & QA report](Automated_MCQ_Exam_Portal_Testing_QA_Report.pdf)
-- [Backend testing notes](backend/TESTING_REPORT.md)
-- [System modeling diagram](Automated%20MCQ%20Portal%20System%20Modeling.png)
+### Reports
+- [Project Report](docs/reports/Automated%20MCQ%20Exam%20Portal%20report.pdf)
+- [Testing & QA Report](docs/reports/Automated_MCQ_Exam_Portal_Testing_QA_Report.pdf)
+
+### Proposal
+- [Project Proposal](docs/proposals/your-proposal-filename.pdf)
+
+### Diagrams
+- [System Modeling](docs/diagrams/Automated%20MCQ%20Portal%20System%20Modeling.png)
+
+### Academic Documents
+- [Problem Statement & Topic Selection](docs/academic/problem-statement-topic-selection.png)
 
 ## Security notes
 
