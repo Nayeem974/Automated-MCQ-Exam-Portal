@@ -193,6 +193,16 @@ All supporting project documents are organized under `docs/`.
 ### Academic Documents
 - [Problem Statement & Topic Selection](docs/academic/problem-statement-topic-selection.png)
 
+## Testing & QA
+
+The backend includes automated Jest tests for authentication, authorization,
+exam boundaries, question management, evaluation, and related workflows.
+
+Latest result:
+- Test Suites: 9 passed
+- Tests: 46 passed
+- Failures: 0
+
 ## Security notes
 
 - Keep secrets in local environment files and hosting-provider secret stores.
